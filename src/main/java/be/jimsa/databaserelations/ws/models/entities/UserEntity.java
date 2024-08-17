@@ -14,6 +14,10 @@ public class UserEntity {
     private String username;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AddressEntity.class)
-    @JoinColumn(name = "addresses", referencedColumnName = "address_id", nullable = true)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = true)
     private AddressEntity address;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "class_id", referencedColumnName = "class_id", nullable = true)
+    private ClassEntity classEntity;
 }

@@ -4,7 +4,6 @@
 > JPA annotations
 
 
-
 - parent
 - child
 
@@ -93,9 +92,62 @@ public class AddressEntity {
 ```
 
 - @JoinColumn used as a foreign key
-- _name_ defines the name of the foreign key _table_
+- _name_ defines the name of the foreign key _column_
 - _referencedColumnName_ indicates the _field name_ inside the _target column_
 
 
 <hr />
+
+### One-To-Many & Many-To-One
+
+
+> Usually, the child entity is one that owns the relationship and the parent entity contains the @OneToMany annotation.
+
+
+```java
+@Entity
+@Table(name = "users")
+public class UserEntity {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "user_id")
+  private long userId;
+
+  private String username;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "class_id", referencedColumnName = "class_id", nullable = true)
+  private ClassEntity classEntity;
+}
+```
+
+- child entity has JoinColumn
+- child entity is the owner of this relationship
+
+
+```java
+@Entity
+@Table(name = "classes")
+public class ClassEntity {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "class_id")
+  private long id;
+
+  private String name;
+
+  @OneToMany(
+          mappedBy = "classEntity",
+          fetch = FetchType.LAZY,
+          cascade = CascadeType.PERSIST,
+          targetEntity = UserEntity.class
+  )
+  private Set<UserEntity> users;
+}
+```
+
+- @OneToMany has mappedBy
+- mappedBy means bidirectional relationship
 
