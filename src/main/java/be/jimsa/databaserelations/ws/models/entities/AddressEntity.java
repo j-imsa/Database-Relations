@@ -9,7 +9,7 @@ public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
-    private long id;
+    private long addressId;
 
     private String city;
 }
